@@ -1,0 +1,170 @@
+{% extends 'software_training/training/admin/base_admin.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    #choose::file-selector-button {
+        background-color: rgb(37, 125, 207);
+        padding: 12px;
+        color: white;
+        width: 100px;
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-10 col-md-8 col-lg-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mt-3" style="text-align:center">Give Task</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data" autocomplete="OFF"> 
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Select Category</label>
+                        <select class="form-control" id="regdetailsdept" style="color:white;" name="Category"
+                            required>
+                            <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                            {% for i in cate %}
+                            <option value="{{i.id}}">{{i.category_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Course</label>
+                        <select class="form-control" id="regdetailsDesig" style="color:white;" name="course">
+                            <!-- <option selected="true" disabled="disabled" value="">Select an option</option> -->
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Designation</label>
+
+
+                        <select class="form-control" style="color:white;" name="designation" id="designation">
+                            <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                            {% for i in desig %}
+                              <option value="{{i.id}}">{{i.designation_name}}</option>
+                            {% endfor %} 
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select class="form-control" id="empname" style="color:white;" name="emp">
+                            <!-- <option selected="true" disabled="disabled" value="">Select an option</option> -->
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea1">Task</label>
+                        <textarea class="form-control" name="task" id="exampleTextarea1" style="color:white;"
+                            rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea class="form-control" name="discrip" id="exampleTextarea1" style="color:white;"
+                            rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName1">StartDate</label>
+                        <input type="date" class="form-control txtDate" id="txtDate" name="start" required
+                            style="color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName1">End Date</label>
+                        <input type="date" class="form-control txtFrom" id="txtFrom" name="end" required
+                            style="color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>File upload</label>
+                        <div class="form-group">
+                            <input type="file" class="form-control text-light" name="file" id="choose" required />
+                        </div>
+                    </div>
+                    <div class="form-check form-check-flat form-check-primary">
+
+                        <button type="submit" class="btn btn-primary me-2">Assign</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('.txtDate').attr('max', maxDate);
+    })
+</script>
+<script>
+    $(function () {
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+        var minDate = year + '-' + month + '-' + day;
+        $('.txtFrom').attr('min', minDate);
+    })
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#regdetailsdept").change(function () {
+        const deptId = $(this).val();
+        console.log(deptId);
+        $.ajax({
+            url: '{% url "Admin_taskcategory" %}',
+            data: {
+                'dept_id': deptId
+            },
+
+            success: function (data) {
+                $("#regdetailsDesig").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+    $("#designation").change(function () {
+        const deptId = $("#regdetailsdept").val();
+        const courseId = $("#regdetailsDesig").val();
+        const desigId = $("#designation").val();
+        console.log(deptId,courseId,desigId);
+
+        $.ajax({
+            url: '{% url "Admin_employee" %}',
+            data: {
+                'deptId': deptId,
+                'courseId': courseId,
+                'desigId': desigId
+            },
+            success: function (data) {
+                $("#empname").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+</script>
+
+{% endblock %}
+
+
+<form class="forms-sample" method="post" action="{% url 'BRadmin_givetask' %}" enctype="multipart/form-data"></form>

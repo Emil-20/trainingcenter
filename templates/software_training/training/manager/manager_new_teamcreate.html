@@ -1,0 +1,84 @@
+{% extends 'software_training/training/manager/base_manager.html' %}
+ {% load static %} {% block content %}
+<style>
+    .dropdown-item:hover {
+        color: #f4f4f8;
+    }
+</style>
+
+<div class="row">
+  <div class="col-12 col-sm-2 col-md-2 col-lg-3 col-xl-3 my-auto"></div>
+  <div class="col-12 col-sm-8 col-md-8 col-lg-6">
+  <form action="{% url 'manager_newteamadd' %}" method="post" autocomplete="off">
+    {%csrf_token%}
+    
+        <div class="card" >
+            <div class="card-body" style="height: 300px;">
+              <div class="row mt-4">
+                
+                  <label class="col-6 col-sm-5 col-md-5  col-md-5 col-lg-5  ">Select Trainer</label>
+                      <select class="badge badge-outline-primary bg-dark text-light  col-4 col-sm-4  col-md-4  col-md-4 col-lg-4 ml-3"name="trainer" >
+                      {%for var in var%}
+                        <option style="display: none;">Trainer</option>
+                        <option value="{{var.fullname}}">{{var.fullname}}</option>
+                      {%endfor%}
+                      </select>
+                  
+                </div>
+          
+          
+                <div class="row mt-4">
+                  <div class="col-6  col-sm-5 col-md-5 col-lg-5 col-form-label">
+                  <label  >Team Name</label>
+                  </div>
+                 <div class="col-6  col-sm-6 col-md-6 col-lg-6"> 
+                    <input type="text"class="form-control text-light "  name="team" required/>
+                   </div>
+                </div>
+         
+                <div class="row mt-4">
+                  
+                    
+                    <center><button type="Submit" class="btn btn-outline-primary btn-icon-text ">
+                      <i class="mdi mdi-file-check btn-icon-prepend"></i>
+                      Submit
+                    </button></center>
+                  
+                </div>
+        </div>
+      
+    </div>
+    {%if msg%}
+    <h5 style="text-align:center">{{msg}}</h5>
+    {%endif%}
+  </form>
+  </div>
+</div>
+{% if msg_success %}
+  <script>
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      text: '{{ msg_success }}',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(function () {
+      javascript: history.go(-2);
+    })
+  </script>
+  {% endif %}
+<script>
+  //js for submit button in new_team.html page
+  function redirect() {
+      window.location.href = "/manager_new_team";
+  }
+  // js for delete button in new_team1.html page 
+  function confirmation() {
+      var result = confirm("Are you sure...?");
+      if (result) {
+          // Delete logic goes here 
+      }
+  }
+</script>
+
+{%endblock%}

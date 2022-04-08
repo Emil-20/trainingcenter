@@ -1,0 +1,130 @@
+{% extends 'software_training/training/admin/base_admin.html' %}
+{% load static %}
+{% block content %}
+    <body>
+        <style>
+        table tr[data-href] {
+            cursor: pointer;
+        }
+        </style>
+        <div class="row ">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <h4>Registration Details</h4>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                <form>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="myInput"
+                                               onkeyup="myFunction()"
+                                               placeholder="Search for names.."
+                                               title="Type in a name"
+                                               style="color:white;">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table " id="myTable">
+                                <thead>
+                                    <tr data-href="#">
+                                        <th style="padding-left:50px;">Name</th>
+                                        <th style="padding-left:40px;">Email</th>
+                                        <th>Password</th>
+                                        <th>Category</th>
+                                        <th style="padding-left:10px;">Course</th>
+                                        <th style="padding-left:10px;">Designation</th>
+                                        <th>Date of Appointment</th>
+                                        <th>Employee Id</th>
+                                        <th style="padding-left:25px;">Offer Letter</th>
+                                        <th style="padding-left:15px;">Relieve Letter</th>
+                                        <th>Experience Certificate</th>
+                                        <th style="padding-left:20px;">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in vars %}
+                                    <tr data-href="#">
+                                        <td>
+                                            <img src="{{i.photo.url}}" alt="image" />
+                                            <span class="ps-2">{{i.fullname}}</span>
+                                        </td>
+                                        <td>{{i.email}}</td>
+                                        <td style="padding-left:25px;">{{i.password}}</td>
+                                        <td>{{i.category.category_name}}</td>
+                                        <td>{{i.course.course_name}}</td>
+                                        <td>{{i.designation.designation_name}}</td>
+                                        <td style="padding-left:40px;">{{i.appoinment_date}}</td>
+                                        <td style="padding-left:30px;">{{i.employee_id}}</td>
+                                        <td>
+                                            {% if i.offer_letter %}
+                                                <a href="{{i.offer_letter.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                                style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2" style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                             {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.relive_letter %}
+                                                <a href="{{i.relive_letter.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                                style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2" style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                             {% endif %}
+                                        </td>
+                                        <td style="padding-left:40px;">
+                                            {% if i.experience_certificate %}
+                                                <a href="{{i.experience_certificate.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                                style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2" style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                             {% endif %}
+                                        </td>
+                                        <td>
+                                            <form action="{% url 'teamdelete' i.id %}" method="post">
+                                                {%csrf_token %}
+                                            <button type="submit" class="btn btn-social-icon-text btn-outline-danger" onclick="confirmation()">
+                                                <i class="mdi mdi-delete-forever"></i>
+                                                Delete
+                                            </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        </script>
+        <script>
+            // js for delete button in new_team1.html page
+            function confirmation() {
+                var result = confirm("Are you sure...?");
+                if (result) {
+                    // Delete logic goes here
+                }
+            }
+        </script>
+{% endblock %}

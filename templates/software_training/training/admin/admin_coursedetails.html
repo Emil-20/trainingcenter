@@ -1,0 +1,71 @@
+{% extends 'software_training/training/admin/base_admin.html' %}
+{% load static %}
+{% block content %}
+<div class="row" style="padding-top: 20px;">
+    <div class="col-2 col-sm-2 col-md-2 col-lg-2"></div>
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6 grid-margin ">
+        <div class="card">
+            <div class="card-body" style="height:auto">
+                <div class="row" style="padding-top:20px">
+
+
+                    <div class="col-8 col-sm-12 col-xl-8 col-md-7 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                            <h3 class="mb-0" style="color:white;font-size:20px; ">{{use.course_name}}</h3>
+                        </div>
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-2 col-md-5 text-center text-xl-right">
+                        <img src="{{use.course_file.url}}" style="height: 50px; width: 50px;">
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="row" style="padding-top:20px">
+
+
+                    <div class="col-8 col-sm-12 col-xl-8 col-md-7 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                            <h3 class="mb-0" style="color:white;font-size:20px; ">Duration</h3>
+                        </div>
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-2 col-md-5 text-center text-xl-right">
+                       {{use.course_duration}}
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="row" style="padding-top:20px">
+
+
+                    <div class="col-8 col-sm-12 col-xl-8 col-md-7 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                            <h3 class="mb-0" style="color:white;font-size:20px; ">Sylabus</h3>
+                        </div>
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-2 col-md-5 ">
+                        <a href="{{use.course_syllabus_file.url}}" download>
+                            <div class="badge badge-outline-primary"><i class="mdi mdi-format-vertical-align-bottom ">Download</i></div>
+                        </a>
+                        {% comment %} {% if use.course_syllabus_file %}
+                            <a class="btn btn-outline-primary  mr-2 ml-6 mt-2" style="font-size: 13px;width: 100px; font-weight: 100;" href="{{use.course_syllabus_file.url}}" download>
+                            <i class="mdi mdi-format-vertical-align-bottom ">Download</i></a>
+                        {% endif %} {% endcomment %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

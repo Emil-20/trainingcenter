@@ -1,0 +1,29 @@
+{% extends 'software_training/training/admin/base_admin.html' %}
+{% load static %}
+{% block content %}
+<div class="row" style="padding-top:20px;">
+    {%for i in use%}
+    <div class="col-lg-6 col-sm-6 col-12 col-md-6 grid-margin "style="padding-top:20px">
+        <a href="{% url 'Admin_coursedetails' i.id %}"style="text-decoration: none">
+            <div class="card">
+                <div class="card-body" style="height:150px">
+                    <div class="row" style="padding-top:20px" >
+                        <div class="col-8 col-sm-12 col-xl-8 col-md-7 my-auto">
+                            <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                <h3 class="mb-0" style="color:white;font-size:20px; ">{{i.course_name}}</h3>
+                            </div>
+                        </div>
+                        <div class="col-4 col-sm-12 col-xl-2 col-md-5 text-center text-xl-right">
+                            <img src="{{i.course_file.url}}" style="height: 50px; width: 50px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {%endfor%}
+    
+</div>
+        
+{% endblock %}
+    
